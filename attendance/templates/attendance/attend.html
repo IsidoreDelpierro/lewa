@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>ATTEND</title>
+  </head>
+  <body>
+    <h1>Attend Class</h1>
+    <p>By clicking the button below you will be marked present in class</p>
+    <form method="POST">
+      {% csrf_token %}
+      <button>Submit</button>
+
+      {% if status == 2 %}
+        <p>
+          Sorry, you can't attend class more than once a day! </br>
+          <a href = "{% url 'attendance:logout' %}">LOGOUT</a>
+        </p>
+      {% endif %}
+
+      {% if status == 3 %}
+        <p> Your account has been created successfully </p>
+      {% endif %}
+
+      {% if status == 0 %}
+        <p> You gotta login first!</p>
+        <a href = "{% url 'attendance:login' %}">LOGIN</a>
+        <a href = "{% url 'attendance:register' %}">REGISTER</a>
+      {% endif %}
+    </form>
+  </body>
+</html>
