@@ -2,12 +2,12 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .forms import UserRegistrationForm
 from .models import Attend
+from django.utils import timezone
 
-# Create your views here.
 def attendance(request):
     return HttpResponse("Wow this is an <strong>awesome</strong> app")
 
-def register(request):
+def register_view(request):
     if request.method == "POST":
         print("POST Request received")
         form = UserRegistrationForm(request.POST)
@@ -27,17 +27,19 @@ def attend_view(request):
         if request.user.is_authenticated:
             try:
                 #Pick out all attend objects for current user
-                attended_datetime = str(Attend.objects.get(attender=request.user).datetime)[:10]
+                attended_datetime = str(timezone.now())[:10]
+                print(attended_datetime)
             except:
                 pass
 
-            try:
-                #Filter out current user who attended today
-                attended_today = Attend.objects.filter(attender=request.user, datetime__startswith=attended_datetime)
-                status = 2
-            except:
-                #User does not exist
+            #Filter out current user who attended today
+            attended_today = Attend.objects.filter(attender=request.user, datetime__startswith=attended_datetime)
+
+            if str(attended_today)[10:] == "[]>":
                 status = 3
+
+            else:
+                status = 2
 
             if status == 3:
                 attend_object = Attend(attender=request.user)

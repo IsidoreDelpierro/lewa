@@ -1,32 +1,36 @@
+{% load static %}
 <!DOCTYPE html>
 
 <html>
   <head>
-    <title>ATTEND</title>
+    <title>Attend</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
   </head>
   <body>
-    <h1>Attend Class</h1>
-    <p>By clicking the button below you will be marked present in class</p>
-    <form method="POST">
-      {% csrf_token %}
-      <button>Submit</button>
+    <h1 class="heading">Attend Class</h1>
+    <div class="container">
+      <p class="w-message">By clicking the button below you will be marked present in class</p>
+      <form method="POST">
+        {% csrf_token %}
+        <button class="b-attend">Attend</button>
+      </form>
 
-      {% if status == 2 %}
-        <p>
-          Sorry, you can't attend class more than once a day! </br>
-          <a href = "{% url 'attendance:logout' %}">LOGOUT</a>
-        </p>
-      {% endif %}
+        {% if status == 2 %}
+          <p class="e-message">
+            Sorry, you can't attend class more than once a day! </br>
+            <a href = "{% url 'attendance:logout' %}">LOGOUT</a>
+          </p>
+        {% endif %}
 
-      {% if status == 3 %}
-        <p> Your account has been created successfully </p>
-      {% endif %}
+        {% if status == 3 %}
+          <p class="w-message"> Your account has been created successfully </p>
+        {% endif %}
 
-      {% if status == 0 %}
-        <p> You gotta login first!</p>
-        <a href = "{% url 'attendance:login' %}">LOGIN</a>
-        <a href = "{% url 'attendance:register' %}">REGISTER</a>
-      {% endif %}
-    </form>
+        {% if status == 0 %}
+          <p class="e-message"> You gotta login first!</p>
+          <a class="a-submit" href = "{% url 'attendance:login' %}">LOGIN</a>
+          <a class="a-submit" href = "{% url 'attendance:register_view' %}">REGISTER</a>
+        {% endif %}
+    </div>
   </body>
 </html>
