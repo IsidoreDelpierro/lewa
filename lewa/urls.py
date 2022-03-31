@@ -6,8 +6,15 @@
 """
 from django.contrib import admin
 from django.urls import path, include
+from administration import views as administrator
+from academics import views as academic
 
 urlpatterns = [
-    path('', include('attendance.urls')),
-    path('admin/', admin.site.urls),
+    path('attend/', include('attendance.urls')),
+
+    path('', academic.studentDashboard, name="student_dashboard"),
+    path('staff/', academic.staffDashboard, name="staff_dashboard"),
+    path('teacher/', academic.teacherDashboard, name="teacher_dashboard"),
+    path('admin/', administrator.dashboard, name="admin_dashboard"),
+    path('dev/', admin.site.urls),
 ]
